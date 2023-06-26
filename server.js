@@ -9,7 +9,12 @@ const cors=require('cors')
 app.use(cors({
     origin: '*'
   }));
+<<<<<<< HEAD
   
+=======
+app.use(express.json())
+
+>>>>>>> origin/master
 dotenv.config({path:'config.env'})
 const PORT =process.env.PORT  || 5000
 
