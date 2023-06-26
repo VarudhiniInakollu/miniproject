@@ -26,10 +26,7 @@ const jobSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  appliedStudents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Student'
-  }]
+  appliedStudents: [String]
 });
 
 const Job = mongoose.model('Job', jobSchema);

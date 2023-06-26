@@ -26,7 +26,8 @@ const studentSchema = new mongoose.Schema({
   cgpa: {
     type: Number,
     required: true
-  }
+  },
+  appliedJobs:[String]
 });
 
 const Student = mongoose.model('Student', studentSchema);
