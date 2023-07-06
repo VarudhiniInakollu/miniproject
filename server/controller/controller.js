@@ -42,33 +42,6 @@ exports.createj=(req,res)=>{
         res.status(400).send({message:"Content can't be empty"})
         return;
     }
-<<<<<<< HEAD
-=======
-
-    
-    const job=new jobdb({
-        jobid:req.body.jobid,
-        jobrole:req.body.jobrole,
-        company:req.body.company,
-        description:req.body.description,
-        salary:req.body.salary,
-        enddate:req.body.enddate,
-        appliedStudents:req.body.appliedStudents
-    })
-    job
-        .save(job)
-        .then(data=>{
-            res.send(data)
-        })
-        .catch(err=>{
-            res.status(500).send({
-                message:err.message || "Error Occured while create operation"
-            });
-        });
-  //  res.end()
-  }
->>>>>>> origin/master
-
     //new student
     const job=new jobdb({
         jobid:req.body.jobid,
