@@ -26,7 +26,7 @@ const jobSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  appliedStudents: [String]
+  appliedStudents: [String],
 });
 
 const Job = mongoose.model('Job', jobSchema);

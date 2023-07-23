@@ -21,4 +21,3 @@ route.get('/api/appliedstudentscount/:jobid',controller.getCountAppliedStudentsF
 route.get('/api/appliedjobscount/:rollnumber',controller.getCountAppliedJobsByStudent)
 route.post('/api/login',authentication.authenticateStudent)
 module.exports=route
-
