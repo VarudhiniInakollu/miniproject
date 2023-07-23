@@ -15,7 +15,10 @@ route.delete('/api/studentdelete/:rollnumber',controller.deletest)
 route.delete('/api/jobdelete/:jobid',controller.deletejob)
 route.post('/api/jobs/:jobid',controller.updatejobarray)
 route.post('/api/students/:rollnumber',controller.updatestudentarray)
-route.post('/api/login',authentication.loginf)
-
+route.get('/api/appliedstudents/:jobid',controller.getAppliedStudentsForJob)
+route.get('/api/appliedjobs/:rollnumber',controller.getJobsAppliedByStudent)
+route.get('/api/appliedstudentscount/:jobid',controller.getCountAppliedStudentsForJob)
+route.get('/api/appliedjobscount/:rollnumber',controller.getCountAppliedJobsByStudent)
+route.post('/api/login',authentication.authenticateStudent)
 module.exports=route
 

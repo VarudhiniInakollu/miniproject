@@ -5,7 +5,7 @@ var jobdb=require('../model/jobmodel');
 //create and save new student
 exports.create=(req,res)=>{
     //validating the request
-    if(!req.body){                             //if body is empty then req.body returns false
+    if(!req.body){                                         //if body is empty then req.body returns false
         res.status(400).send({message:"Content can't be empty"})
         return;
     }
@@ -218,3 +218,78 @@ exports.updatestudentarray = (req, res) => {
     });
 };
 
+//to display the applied students for a job from the appliedStudents array
+exports.getAppliedStudentsForJob = (req, res) => {
+  const jobid = req.params.jobid;
+  //if job is present in job database or not
+  jobdb.findOne({ jobid: jobid })
+    .then(job => {
+      if (!job) {
+        return res.status(404).json({ error: 'Job not found' });
+      }
+
+      const appliedStudents = job.appliedStudents;
+      return res.json(appliedStudents);
+    })
+    .catch(error => {
+      return res.status(500).json({ error: 'An error occurred while fetching applied students for the job' });
+    });
+};
+
+
+
+//display the jobs that a student applied from appliedJobs array 
+exports.getJobsAppliedByStudent = (req, res) => {
+  const rollnumber = req.params.rollnumber;
+  //if student is present in student database or not
+  studentdb.findOne({ rollnumber: rollnumber })
+    .then(rollnumber => {
+      if (!rollnumber) {
+        return res.status(404).json({ error: 'Job not found' });
+      }
+
+      const appliedJobs = rollnumber.appliedJobs;
+      return res.json(appliedJobs);
+    })
+    .catch(error => {
+      return res.status(500).json({ error: 'An error occurred while fetching applied students for the job' });
+    });
+};
+
+
+//Count of students applied for job i.e size of appliedStudents array
+exports.getCountAppliedStudentsForJob = (req, res) => {
+  const jobid = req.params.jobid;
+  //if job is present in job database or not
+  jobdb.findOne({ jobid: jobid })
+    .then(job => {
+      if (!job) {
+        return res.status(404).json({ error: 'Job not found' });
+      }
+
+      const appliedStudentslength = job.appliedStudents.length;
+      return res.json(appliedStudentslength);
+    })
+    .catch(error => {
+      return res.status(500).json({ error: 'An error occurred while fetching applied students for the job' });
+    });
+};
+
+
+//Count of jobs applied by students i.e size of appliedJobs array
+exports.getCountAppliedJobsByStudent = (req, res) => {
+  const rollnumber = req.params.rollnumber;
+  //if student is present in student database or not
+  studentdb.findOne({ rollnumber: rollnumber })
+    .then(student => {
+      if (!student) {
+        return res.status(404).json({ error: 'Job not found' });
+      }
+
+      const appliedJobslength = student.appliedJobs.length;
+      return res.json(appliedJobslength);
+    })
+    .catch(error => {
+      return res.status(500).json({ error: 'An error occurred while fetching applied students for the job' });
+    });
+};

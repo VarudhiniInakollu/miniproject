@@ -1,35 +1,36 @@
 const express = require('express');
-const Student = require('../model/studentmodel');
+const studentdb = require('../model/studentmodel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.loginf= async (req, res) => {
-  const { username, password } = req.body;
+exports.authenticateStudent = (req, res) => {
+  const rollnumber = req.body.rollnumber;
+  const password = req.body.password;
 
-  try {
-    // Check if the student exists in the database
-    const Student = await Student.findOne({ username });
+  // Find the student with the provided rollnumber in the database
+  studentdb.findOne({ rollnumber: rollnumber })
+    .then(student => {
+      if (!student) {
+        return res.status(404).json({ error: 'Student not found' });
+      }
 
-    if (!Student) {
-      return res.status(404).json({ message: 'Student not found.' });
-    }
+      // Compare the provided password with the stored hashed password
+      bcrypt.compare(password, student.password, (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: 'An error occurred while comparing passwords' });
+        }
 
-    // Compare the provided password with the hashed password in the database
-    const isPasswordValid = await bcrypt.compare(password, student.password);
+        if (!result) {
+          return res.status(401).json({ error: 'Invalid password' });
+        }
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password.' });
-    }
-
-    // Generate a JWT token
-    const token = jwt.sign(
-      { username: Student.username, rollNumber: Student.rollNumber },
-      'your-secret-key', // Replace with your own secret key
-      { expiresIn: '1h' } // Set the expiration time of the token
-    );
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).send({message:error.message || "Error occured while find operation"})
-  }
+        // At this point, the authentication is successful.
+        // You can generate a JWT token or perform any other action to indicate a successful login.
+        // For simplicity, let's return a success message.
+        return res.json({ message: 'Authentication successful' });
+      });
+    })
+    .catch(error => {
+      return res.status(500).json({ error: 'An error occurred while authenticating the student' });
+    });
 };
