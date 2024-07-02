@@ -2,10 +2,15 @@ const express=require('express')
 const route=express.Router()
 const controller=require('../controller/controller')
 const authentication=require('../authentication/auth')
+ const upload=require('../excelimport/uploadExcelFile')
+const createStudFromExcel=require('../excelimport/importstudents')
+
 
 
 //API
 route.post('/api/students',controller.create)
+//route.post('/api/registerStudts/xltodb',upload,createStudFromExcel)
+route.post('/api/registerStudts/xltodb',upload,createStudFromExcel)
 route.post('/api/jobs',controller.createj)
 route.get('/api/displaystudents/students',controller.displayst)
 route.get('/api/displayjobs/jobs',controller.displayj)

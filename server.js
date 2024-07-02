@@ -4,8 +4,8 @@ const morgan = require('morgan') //allows us to log the requests whenever the mo
 const app = express()
 const path = require('path')
 const bodyparser=require('body-parser')
-const xlsx = require('xlsx');
-const connectDB=require('./server/database/connection')
+ const xlsx = require('xlsx');
+const connectDB=require('./server/database/connection')  //------>from connection.js
 const importData=require('./server/excelimport/importstudents')
 const cors=require('cors')
 app.use(cors({
@@ -21,11 +21,11 @@ app.use(morgan('tiny'))  //gives the type of request made and the path
 //mongodb connection
 
 connectDB();
-importData();
+//importData();
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(bodyparser.json());
 
 //adding the routes
-app.use('/',require('./server/routes/router'))
+app.use('/',require('./server/routes/router'))   //---->from router.js
 
 app.listen(PORT,()=>console.log(`Server is running on http://localhost:${PORT}`))
